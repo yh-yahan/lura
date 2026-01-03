@@ -14,12 +14,12 @@ class AuthController extends Controller
 {
     public function register(RegisterRequest $request, RegisterUserAction $action): JsonResponse
     {
-        return response()->json($action->execute($request->validated()), 201);
+        return response()->json($action->execute($request->validated(), $request), 201);
     }
 
     public function login(LoginRequest $request, LoginUserAction $action): JsonResponse
     {
-        return response()->json($action->execute($request->validated()));
+        return response()->json($action->execute($request->validated(), $request));
     }
 
     public function logout(Request $request): JsonResponse
@@ -27,6 +27,13 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out successfully'], 200);
+    }
+
+    public function me(Request $request): JsonResponse
+    {
+        return response()->json([
+            'user' => $request->user(),
+        ], 200);
     }
 
     public function deleteAccount(Request $request): JsonResponse

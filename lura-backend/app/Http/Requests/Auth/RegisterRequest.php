@@ -24,7 +24,9 @@ class RegisterRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:App\Models\User,email'],
-            'password' => ['required', 'string', 'confirmed'],
+            'password' => ['required', 'string', 'confirmed', 'min:6'],
+            'client_type' => ['required', 'string', 'in:web,mobile'],
+            'device_name' => ['sometimes', 'string'],
         ];
     }
 }
